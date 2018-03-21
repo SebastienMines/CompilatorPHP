@@ -9,6 +9,17 @@ export default class TokenFactory{
 		let sub_current = 0
 		let sub_char = char
 		switch(char){
+			case '$':
+			    sub_current = 1;
+			    sub_char = value.charAt(sub_current)
+                while(sub_current<value.length){
+                    sub_char = value.charAt(sub_current)
+                    if (sub_char === ' ') {
+                        return new Token('variable', value.substring(0, sub_current), pos);
+                    }
+                    sub_current++
+                }
+				return new Token('variable', 'variable', pos);
 			case '\r':
 				return new Token('line-break-r', '\r', pos);
 			case '\n':
@@ -17,6 +28,10 @@ export default class TokenFactory{
 				return new Token('space', ' ', pos);
 			case '=':
 				return new Token('equal', '=', pos);
+            case '+':
+                return new Token('add', '+', pos);
+            case '-':
+                return new Token('redus', '-', pos);
 			case ';':
 				return new Token('instruction-end', ';', pos);
 			case '.':
@@ -27,6 +42,10 @@ export default class TokenFactory{
 				return new Token('parenthesis-start', '(', pos);
 			case ')':
 				return new Token('parenthesis-end', ')', pos);
+            case '{':
+                return new Token('accolade-start', '{', pos);
+            case '}':
+                return new Token('accolade-end', '}', pos);
 			case '"':
 				sub_current = 1
 				sub_char = value.charAt(sub_current)

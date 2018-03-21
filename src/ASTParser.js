@@ -15,6 +15,38 @@ export default class ASTParser{
 				case 'space':
 				case 'line-break-r':
 				case 'line-break':
+				case 'function':
+					cursor.position++;
+					var next = tokens[cursor.position];
+					current_token = next;
+					if(next.type==="identifier"){
+						cursor.position++;
+						next = tokens[cursor.position];
+						current_token= next;
+						if(next.type==="parenthesis-start"){
+							cursor.position++;
+							next = tokens[cursor.position];
+							current_token= next;
+							while(next.type==="identifier"){
+                                cursor.position++;
+                                next = tokens[cursor.position];
+								current_token= next;
+								if(next.type==="virgule"){
+                                    cursor.position++;
+                                    next = tokens[cursor.position];
+                                    current_token= next;
+									if(next.type==="space"){
+                                        cursor.position++;
+                                        next = tokens[cursor.position];
+                                        current_token= next;
+									}
+								}
+							}
+							if(next.type==="parenthesis-end"){
+								console.log("Is a function");
+							}
+						}
+					}
 				case 'console-object':
 					var next = tokens.shift();
 					current_token= next;
@@ -69,8 +101,11 @@ export default class ASTParser{
 				case 'script-php-start':
 				case 'script-php-end':
 				case 'view-command':
+				case 'object-string':
 				case 'parenthesis-start':
 				case 'parenthesis-end':
+				case 'instruction-end':
+				case 'variable':
 				case 'identifier':
 					continue;
 				default:
