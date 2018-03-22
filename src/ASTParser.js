@@ -14,39 +14,75 @@ export default class ASTParser{
 			switch(current_token.type){
 				case 'space':
 				case 'line-break-r':
+					break
 				case 'line-break':
+					break
+				case 'if':
+					cursor.position++;
+					var next = tokens[cursor.position];
+					current_token = next;
+					if(next.type==="parenthesis-start"){
+                        cursor.position++;
+                        next = tokens[cursor.position];
+                        current_token = next;
+                        if(next.type==="variable"){
+                            cursor.position++;
+                            var next = tokens[cursor.position];
+                            current_token = next;
+							if(next.type==="equal"){
+                                cursor.position++;
+                                var next = tokens[cursor.position];
+                                current_token = next;
+                                if(next.type==="variable"){
+                                    cursor.position++;
+                                    var next = tokens[cursor.position];
+                                    current_token = next;
+                                    if(next.type==="parenthesis-end"){
+                                    	console.log("Is an IF condition");
+									}
+								}
+							}
+						}
+					}
+					break;
 				case 'function':
 					cursor.position++;
 					var next = tokens[cursor.position];
 					current_token = next;
-					if(next.type==="identifier"){
-						cursor.position++;
-						next = tokens[cursor.position];
-						current_token= next;
-						if(next.type==="parenthesis-start"){
-							cursor.position++;
-							next = tokens[cursor.position];
-							current_token= next;
-							while(next.type==="identifier"){
+					if(next.type==="space"){
+                        cursor.position++;
+                        next = tokens[cursor.position];
+                        current_token= next;
+                        if(next.type==="identifier"){
+                            cursor.position++;
+                            next = tokens[cursor.position];
+                            current_token= next;
+                            if(next.type==="parenthesis-start"){
                                 cursor.position++;
                                 next = tokens[cursor.position];
-								current_token= next;
-								if(next.type==="virgule"){
+                                current_token= next;
+                                while(next.type==="variable"){
                                     cursor.position++;
                                     next = tokens[cursor.position];
                                     current_token= next;
-									if(next.type==="space"){
+                                    if(next.type==="virgule"){
                                         cursor.position++;
                                         next = tokens[cursor.position];
                                         current_token= next;
-									}
-								}
-							}
-							if(next.type==="parenthesis-end"){
-								console.log("Is a function");
-							}
-						}
+                                        if(next.type==="space"){
+                                            cursor.position++;
+                                            next = tokens[cursor.position];
+                                            current_token= next;
+                                        }
+                                    }
+                                }
+                                if(next.type==="parenthesis-end"){
+                                    console.log("Is a function");
+                                }
+                            }
+                        }
 					}
+					break;
 				case 'console-object':
 					var next = tokens.shift();
 					current_token= next;
@@ -97,15 +133,48 @@ export default class ASTParser{
 						}
 					}
 					break;
+				case 'add':
+                    var next = tokens[cursor.position+1];
+                    var prev = tokens[cursor.position-1];
+                    var vari = tokens[cursor.position-5];
+                    console.log(vari);
+                    console.log(next);
+                    console.log(prev);
+                    if(prev.type=="object-string" && next.type=="object-string"){
+
+					}
+					else if(prev.type=="number" && next.type=="number"){
+
+                    }
+                    else if(prev.type=="number-float" && next.type=="number-float"){
+
+                    }
+                    else{
+                    	throw 'Error calcul'
+					}
+					break;
 				case 'point':
+					break;
 				case 'script-php-start':
+					break;
 				case 'script-php-end':
+					break;
 				case 'view-command':
+					break;
 				case 'object-string':
+					break;
 				case 'parenthesis-start':
+					break;
 				case 'parenthesis-end':
+					break;
+                case 'accolade-start':
+                    break;
+                case 'accolade-end':
+                    break;
 				case 'instruction-end':
+					break;
 				case 'variable':
+					break;
 				case 'identifier':
 					continue;
 				default:

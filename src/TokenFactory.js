@@ -14,12 +14,12 @@ export default class TokenFactory{
 			    sub_char = value.charAt(sub_current)
                 while(sub_current<value.length){
                     sub_char = value.charAt(sub_current)
-                    if (sub_char === ' ') {
+                    if (sub_char === ' ' || sub_char === ',' || sub_char === ')') {
                         return new Token('variable', value.substring(0, sub_current), pos);
                     }
                     sub_current++
                 }
-				return new Token('variable', 'variable', pos);
+                break;
 			case '\r':
 				return new Token('line-break-r', '\r', pos);
 			case '\n':

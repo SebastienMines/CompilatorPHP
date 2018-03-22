@@ -16,11 +16,14 @@ export default class ExpressionFactory{
 				next = tokens[cursor.position];
 				return new ExpressionVarDeclaration(next);
 			case 'equal':
-				if(tokens[cursor.position-1].type=="space" && tokens[cursor.position-2].type=="identifier"){
+				if(tokens[cursor.position-1].type=="space" && tokens[cursor.position-2].type=="variable"){
 					cursor.position++
 					let next = tokens[cursor.position];
-					if(next.type!="space"){
-						throw 'You have to put a space after a variable assignation.';
+					if(next.type==="space"){
+
+					}
+					else{
+                        throw 'You have to put a space after a variable assignation.';
 					}
 					cursor.position++
 					next = tokens[cursor.position];
